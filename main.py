@@ -1,6 +1,9 @@
 import requests
 import hashlib
 
-text = "Hello, world!"
-password = hashlib.sha1(text.encode('utf-8')).hexdigest()
+text = "1234565545"
+password = hashlib.sha1(text.encode('utf-8')).hexdigest().upper()
 print(password)
+
+leak = requests.get(f"https://api.pwnedpasswords.com/range/{password[:5]}")
+print(leak.text)
