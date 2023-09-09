@@ -1,19 +1,29 @@
 import requests
 import hashlib
 
-text = "12345678"
-password = hashlib.sha1(text.encode('utf-8')).hexdigest().upper()
-print(password)
-
-leak = requests.get(f"https://api.pwnedpasswords.com/range/{password[:5]}")
-numandpass = leak.text
-lines = numandpass.splitlines()
-print(numandpass)
+password = input("Enter your password: ")
+hashedpassword = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
 
 
-for line in lines: 
-    che = line.split(":")
-    if password[5:] == che[0]:
-        print(text , 'is there ',che[1],"times")
+lst = []
+def get_password(hashedpassword):
+    leak = requests.get(f"https://api.pwnedpasswords.com/range/{hashedpassword[:5]}")
+    numandpass = leak.text
+    lines = numandpass.splitlines()
+    for line in lines:
+        lst.append(line)
+
+get_password(hashedpassword)
 
 
+def times():
+    for line in lst: 
+        che = line.split(":")
+        if hashedpassword[5:] == che[0]:
+            return(f"Your password {password} has been leaked {che[1]} times.")
+
+leak = times()
+if leak:
+    print(leak)
+else:
+    print(f"Your password {password} has not been leaked")
