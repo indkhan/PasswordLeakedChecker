@@ -6,14 +6,14 @@ hashedpassword = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
 
 
 lst = []
-def get_password(hashedpassword):
+def get_password():
     leak = requests.get(f"https://api.pwnedpasswords.com/range/{hashedpassword[:5]}")
     numandpass = leak.text
     lines = numandpass.splitlines()
     for line in lines:
         lst.append(line)
 
-get_password(hashedpassword)
+get_password()
 
 
 def times():
