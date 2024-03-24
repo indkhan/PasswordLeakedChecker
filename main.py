@@ -12,26 +12,30 @@ def get_password(hashedpassword):
     return lst
 
 
-def times(password, hashedpassword,lst):
-    for line in lst: 
+def times(password, hashedpassword, lst):
+    for line in lst:
         che = line.split(":")
         if hashedpassword[5:] == che[0]:
-            return(f"Your password {password} has been leaked {che[1]} times.")
+            return f"Your password {password} has been leaked {che[1]} times."
 
-def out(yesor , password):
+
+def out(yesor, password):
     if yesor:
-        return(yesor)
+        return yesor
     else:
-        return(f"Your password {password} has not been leaked")
+        return f"Your password {password} has not been leaked"
 
 
-def main():
-    password = input("Enter your password:     ") 
-    hashedpassword = hashlib.sha1(password.encode('utf-8')).hexdigest().upper()
-    
+def mainf(password):
+
+    hashedpassword = hashlib.sha1(password.encode("utf-8")).hexdigest().upper()
+
     allpass = get_password(hashedpassword)
-    sele = times(password , hashedpassword, allpass)
-    
+    sele = times(password, hashedpassword, allpass)
 
-    print(out(sele, password))
-main()
+    return out(sele, password)
+
+
+if __name__ == "__main__":
+    password = input("Enter your password:     ")
+    print(mainf(password))
